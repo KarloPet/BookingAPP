@@ -1,6 +1,7 @@
 ﻿using BookingAPP.Data;
 using BookingAPP.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingAPP.Controllers
 {
@@ -36,21 +37,57 @@ namespace BookingAPP.Controllers
             return StatusCode(StatusCodes.Status201Created, c);
         }
 
-        [HttpPut]
-        public IActionResult Put(Cjenik c) 
-        {
-            if (c == null)
-            {
-                return BadRequest();
-            }
-            if(c.Id == 0)
-            {
-                return BadRequest();
-            }
-            _Context.Update(c);
-            _Context.SaveChanges();
+        //[HttpPut]
+        //[Route("{id:int}")]
+        //public IActionResult Put(int id, Cjenik c) 
+        //{
+        //    if (c == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    if(c.Id == 0)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    _Context.Update(c);
+        //    _Context.SaveChanges();
 
-            return new JsonResult(c);
+        //    return new JsonResult(c);
+        //}
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public IActionResult Put(int id, Cjenik cjenik)
+        {
+            if (id <= 0 || !ModelState.IsValid || cjenik == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+
+
+                var smjerIzBaze = _Context.cjenik.Find(id);
+
+                if (smjerIzBaze == null)
+                {
+                    return StatusCode(StatusCodes.Status204NoContent, id);
+                }
+
+                smjerIzBaze.Cijena = cjenik.Cijena;
+                smjerIzBaze.Datum = cjenik.Datum;
+
+                _Context.cjenik.Update(smjerIzBaze);
+                _Context.SaveChanges();
+
+                return StatusCode(StatusCodes.Status200OK, smjerIzBaze);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable,
+                    ex.Message);
+            }
+
         }
         [HttpDelete]
         [Route("{id:int}")]
