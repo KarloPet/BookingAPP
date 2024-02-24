@@ -91,6 +91,7 @@ namespace BookingAPP.Controllers
         }
         [HttpDelete]
         [Route("{id:int}")]
+        [Produces("application/json")]
         public IActionResult Delete(int id) 
         {
            if (id == 0) 
@@ -99,7 +100,7 @@ namespace BookingAPP.Controllers
             }
            _Context.Remove(new Cjenik() { Id = id });
            _Context.SaveChanges();
-            return new JsonResult("{poruka: \"Uspiješno obrisano\"}");
+            return new JsonResult(new { poruka = "Obrisano" });
         }
     }
 }
