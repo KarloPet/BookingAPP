@@ -26,7 +26,10 @@ function MyGallery() {
         <p class="naslov2">
           ZANIMLJIVOSTI
         </p>
-      <ImageGallery items={images} />
+      <ImageGallery items={images} 
+            showPlayButton={false}
+            showFullscreenButton={false}
+      />
       <div className="informacije">
           <p>
           Lovran, slikoviti gradić na istočnoj obali Jadranskog mora, poznat je po svojoj bogatoj povijesti

@@ -23,13 +23,31 @@ var app = builder.Build();
     });
 //}
 
+
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles();
 
+app.UseCors("CorsPolicy");
 
 app.UseDefaultFiles();
 app.UseDeveloperExceptionPage();
 app.MapFallbackToFile("index.html");
+
 app.Run();
+
+
+
+//app.UseHttpsRedirection();
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+
+//app.UseDefaultFiles();
+//app.UseDeveloperExceptionPage();
+//app.MapFallbackToFile("index.html");
+//app.Run();

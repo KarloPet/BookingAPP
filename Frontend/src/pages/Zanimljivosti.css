@@ -4,8 +4,8 @@
 @import"../../node_modules/react-image-gallery/styles/scss/image-gallery.scss";
 
 .image-gallery-slide img {
-    max-width: 75%;
-    max-height: 80%;
+    max-width: 50%;
+    max-height: 50%;
     width: auto;
     height: auto;
   }

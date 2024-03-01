@@ -17,7 +17,7 @@ function NavBar() {
                     className='linkPocetna'
                     onClick={() => navigate(RoutesNames.HOME)}>
                     <img
-                        src="../src/assets/images/logo.png" // Postavite putanju do vaše slike
+                        src="../images/logo.png" // Postavite putanju do vaše slike
                         alt="Apartments Peterfaj" // Alternativni tekst za sliku
                         className="d-inline-block align-top logo-image" // Dodatne klase ako su potrebne
                     />
