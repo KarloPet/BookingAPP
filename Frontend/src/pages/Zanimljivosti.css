@@ -1,0 +1,36 @@
+
+@import "../../node_modules/react-image-gallery/styles/css/image-gallery.css";
+
+@import"../../node_modules/react-image-gallery/styles/scss/image-gallery.scss";
+
+.image-gallery-slide img {
+    max-width: 75%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+  }
+  .informacije {
+    background-color: #f0f0f0; /* Boja pozadine */
+    padding: 20px; /* Razmak unutar diva */
+    border-radius: 8px; /* Zaobljeni rubovi */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sjena */
+  }
+  
+  .informacije p {
+    font-size: 20px; /* Veličina fonta */
+    line-height: 1.6; /* Visina reda */
+    color: #333; /* Boja teksta */
+  }
+  .naslov2 {
+    text-align: center;
+    margin-top: 7px;
+    font-family: Arial, sans-serif; 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #51829B; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px #51829B; 
+  }
+  
+
