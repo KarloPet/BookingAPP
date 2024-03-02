@@ -1,28 +1,74 @@
-using BookingAPP.Data;
+﻿using BookingAPP.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BookingContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BookingContext")));
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+// prilagodba za dokumentaciju, čitati https://medium.com/geekculture/customizing-swagger-in-asp-net-core-5-2c98d03cbe52
+builder.Services.AddSwaggerGen(sgo =>
+{ // sgo je instanca klase SwaggerGenOptions
+  // čitati https://devintxcontent.blob.core.windows.net/showcontent/Speaker%20Presentations%20Fall%202017/Web%20API%20Best%20Practices.pdf
+    var o = new Microsoft.OpenApi.Models.OpenApiInfo()
+    {
+        Title = "Booking API",
+        Version = "v1",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+        {
+            Email = "karlo.peterfaj@gmail.com",
+            Name = "Karlo Peterfaj"
+        },
+        Description = "Ovo je dokumentacija za Booking API",
+        License = new Microsoft.OpenApi.Models.OpenApiLicense()
+        {
+            Name = "Booking aplikacija"
+        }
+    };
+    sgo.SwaggerDoc("v1", o);
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    sgo.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+
+});
+
+// Svi se od svuda na sve moguće načine mogu spojitina naš API
+// Čitati https://code-maze.com/aspnetcore-webapi-best-practices/
+builder.Services.AddCors(opcije =>
+{
+    opcije.AddPolicy("CorsPolicy",
+        builder =>
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+    );
+
+});
+
+
+// dodavanje baze podataka
+builder.Services.AddDbContext<BookingContext>(o =>
+    o.UseSqlServer(builder.Configuration.GetConnectionString(name: "BookingContext"))
+);
+
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    });
+app.UseSwagger();
+// mogućnost generiranja poziva rute u CMD i Powershell
+app.UseSwaggerUI(opcije =>
+{
+    opcije.ConfigObject.
+    AdditionalItems.Add("requestSnippetsEnabled", true);
+});
 //}
-
 
 app.UseHttpsRedirection();
 
@@ -38,16 +84,3 @@ app.UseDeveloperExceptionPage();
 app.MapFallbackToFile("index.html");
 
 app.Run();
-
-
-
-//app.UseHttpsRedirection();
-//app.UseAuthorization();
-
-//app.MapControllers();
-
-
-//app.UseDefaultFiles();
-//app.UseDeveloperExceptionPage();
-//app.MapFallbackToFile("index.html");
-//app.Run();

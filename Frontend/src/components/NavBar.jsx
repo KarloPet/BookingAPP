@@ -46,6 +46,11 @@ function NavBar() {
                             onClick={() => navigate(RoutesNames.ZANIMLJIVOSTI)}>
                             <p className='stavke'>Zanimljivosti</p>
                         </Nav.Link>
+                        <Nav.Link 
+                            className='link'
+                            onClick={() => navigate(RoutesNames.GOSTI)}>
+                            <p className='stavke'>Gosti</p>
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
