@@ -15,14 +15,33 @@ namespace BookingAPP.Controllers
             _Context = context;
         }
         [HttpGet]
-        public IActionResult Get() 
+        public IActionResult Get()
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             return new JsonResult(_Context.cjenik);
         }
+
+        [HttpGet("ByMonth")]
+        public IActionResult GetByMonth(int year, int month)
+        {
+            try
+            {
+                var cjenikByMonth = _Context.cjenik
+                    .Where(c => c.Datum.Year == year && c.Datum.Month == month)
+                    .ToList();
+
+                return Ok(cjenikByMonth);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
 
         [HttpPost]
         public IActionResult Post(Cjenik c) 

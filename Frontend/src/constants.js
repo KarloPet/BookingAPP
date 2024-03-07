@@ -3,7 +3,8 @@ export const RoutesNames = {
     GALLERY:'/Gallery',
     INFORMATIONS:'/Informations',
     ZANIMLJIVOSTI:'/Zanimljivosti',
-    GOSTI:'/Gosti'
+    GOSTI:'/Gosti',
+    CJENIK:'/Cjenik'
 };
 
 export const App = {

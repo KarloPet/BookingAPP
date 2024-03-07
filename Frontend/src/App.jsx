@@ -9,6 +9,7 @@ import Gallery from "./pages/Gallery"
 import Informations from "./pages/Informations"
 import Zanimljivosti from "./pages/Zanimljivosti"
 import Gosti from "./pages/Gosti"
+import Cjenik from "./pages/Cjenik/Cjenik"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path={RoutesNames.INFORMATIONS} element={<Informations />} />
           <Route path={RoutesNames.ZANIMLJIVOSTI} element={<Zanimljivosti />} />
           <Route path={RoutesNames.GOSTI} element={<Gosti />} />
+          <Route path={RoutesNames.CJENIK} element={<Cjenik />} />
 
 
         </>

@@ -33,7 +33,7 @@ function NavBar() {
                         </Nav.Link>
                         <Nav.Link 
                             className='link'
-                            href="#action/3.2">
+                            onClick={() => navigate(RoutesNames.CJENIK)}>
                             <p className='stavke'>Cjenik</p>
                         </Nav.Link>
                         <Nav.Link 
