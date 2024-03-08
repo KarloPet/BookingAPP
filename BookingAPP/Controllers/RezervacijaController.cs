@@ -1,6 +1,8 @@
 ﻿using BookingAPP.Data;
+using BookingAPP.Extensions;
 using BookingAPP.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingAPP.Controllers
 {
@@ -23,18 +25,36 @@ namespace BookingAPP.Controllers
             return new JsonResult(_Context.rezervacija);
         }
 
+
+
+        //[HttpPost]
+        //public IActionResult Post(Rezervacija c)
+        //{
+        //    if (c == null)
+        //    {
+        //        return NoContent();
+        //    }
+        //    _Context.Add(c);
+        //    _Context.SaveChanges();
+
+        //    return StatusCode(StatusCodes.Status201Created, c);
+        //}
         [HttpPost]
-        public IActionResult Post(Rezervacija c)
+        public IActionResult Post([FromBody] RezervacijaDTOInsertUpdate rezervacijaDto)
         {
-            if (c == null)
+            if (!ModelState.IsValid)
             {
-                return NoContent();
+                return BadRequest(ModelState);
             }
-            _Context.Add(c);
+
+            var rezervacija = rezervacijaDto.MapRezervacijaInsertUpdateFromDTO(); // Ovdje mapirate DTO na entitet
+            _Context.rezervacija.Add(rezervacija);
             _Context.SaveChanges();
 
-            return StatusCode(StatusCodes.Status201Created, c);
+            return CreatedAtAction(nameof(Get), new { id = rezervacija.Id }, rezervacija.MapRezervacijaReadToDTO()); // Vraćate DTO
         }
+
+
 
         [HttpPut]
         public IActionResult Put(Rezervacija c)

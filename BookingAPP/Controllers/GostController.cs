@@ -1,4 +1,5 @@
 ﻿using BookingAPP.Data;
+using BookingAPP.Extensions;
 using BookingAPP.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,18 +23,35 @@ namespace BookingAPP.Controllers
             }
             return new JsonResult(_Context.gost);
         }
+        //[HttpPost]
+        //public IActionResult Post(Gost c)
+        //{
+        //    if (c == null)
+        //    {
+        //        return NoContent();
+        //    }
+        //    _Context.Add(c);
+        //    Console.WriteLine(c);
+        //    _Context.SaveChanges();
+
+
+        //    return StatusCode(StatusCodes.Status201Created, c);
+        //}
         [HttpPost]
-        public IActionResult Post(Gost c)
+        public IActionResult Post([FromBody] GostDTOInsertUpdate gostDto)
         {
-            if (c == null)
+            if (!ModelState.IsValid)
             {
-                return NoContent();
+                return BadRequest(ModelState);
             }
-            _Context.Add(c);
+
+            var gost = gostDto.MapGostInsertUpdateFromDTO(); // Ovdje mapirate DTO na entitet
+            _Context.gost.Add(gost);
             _Context.SaveChanges();
 
-            return StatusCode(StatusCodes.Status201Created, c);
+            return CreatedAtAction(nameof(Get), new { id = gost.Id }, gost.MapGostReadToDTO()); // Vraćate DTO
         }
+
 
         [HttpPut]
         public IActionResult Put(Gost c)

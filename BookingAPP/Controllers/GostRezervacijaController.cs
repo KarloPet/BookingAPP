@@ -1,42 +1,17 @@
 ﻿//using BookingAPP.Data;
 //using BookingAPP.Models;
 //using Microsoft.AspNetCore.Mvc;
+//using Microsoft.EntityFrameworkCore;
+//using System.Linq;
+//using System.Threading.Tasks;
 
-//namespace BookingAPP.Controllers
+//public class GostRezervacijaController : Controller
 //{
-//    [ApiController]
-//    [Route("api/v1/[controller]")]
-//    public class GostRezervacijaController : Controller
-//    {
-//        private readonly BookingContext _Context;
-//        public GostRezervacijaController(BookingContext context)
-//        {
-//            _Context = context;
-//        }
-//        [HttpGet]
-//        public IActionResult Get()
-//        {
-//            if (!ModelState.IsValid)
-//            {
-//                return BadRequest(ModelState);
-//            }
-//            return new JsonResult(_Context.rezervacija);
-//        }
+//    //private readonly BookingContext _context;
 
-//        [HttpPost]
-//        public IActionResult Post(GostRezervacija c)
-//        {
-//            if (c == null)
-//            {
-//                return NoContent();
-//            }
-//            _Context.Add(c);
-//            _Context.SaveChanges();
+//    //public GostRezervacijaController(BookingContext context)
+//    //{
+//    //    _context = context;
+//    //}
 
-//            return StatusCode(StatusCodes.Status201Created, c);
-//        }
-
-        
-      
-//    }
 //}
