@@ -36,6 +36,7 @@ builder.Services.AddSwaggerGen(sgo =>
     sgo.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 
 });
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Svi se od svuda na sve moguće načine mogu spojitina naš API
 // Čitati https://code-maze.com/aspnetcore-webapi-best-practices/

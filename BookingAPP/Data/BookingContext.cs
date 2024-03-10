@@ -20,11 +20,9 @@ namespace BookingAPP.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Konfiguracija za GostRezervacija ako Entity Framework ne prepozna automatski
             modelBuilder.Entity<Gostrezervacija>()
                 .HasKey(gr => new { gr.GostId, gr.RezervacijaId });
 
-            // Ostale konfiguracije ako su potrebne
         }
     }
 }
