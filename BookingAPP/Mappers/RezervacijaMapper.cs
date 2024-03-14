@@ -1,49 +1,64 @@
 ﻿using BookingAPP.Models;
-using AutoMapper;
-
 namespace BookingAPP.Mappers
 {
-    public class RezervacijaMapper
+    public static class RezervacijaMapper
     {
-        public static Mapper InicijalizirajReadToDTO()
-        {
-            return new Mapper(
-                new MapperConfiguration(c =>
-                {
-                    c.CreateMap<Rezervacija, RezervacijaDTORead>();
-                })
-                );
-        }
 
-        public static Mapper InicijalizirajReadFromDTO()
+        public static RezervacijaDTO MapToDTO(Rezervacija rezervacija)
         {
-            return new Mapper(
-                new MapperConfiguration(c =>
+            return new RezervacijaDTO
+            {
+                Id = rezervacija.Id,
+                Cijena = rezervacija.Cijena,
+                DatumOd = rezervacija.Datum_Od,
+                DatumDo = rezervacija.Datum_Do,
+                Gosti = rezervacija.GostRezervacije.Select(gr => new GostDTO
                 {
-                    c.CreateMap<RezervacijaDTORead, Rezervacija>();
-                })
-                );
+                    Id = gr.GostNavigation.Id,
+                    Ime = gr.GostNavigation.Ime,
+                    Prezime = gr.GostNavigation.Prezime,
+                    Oib = gr.GostNavigation.Oib
+                }).ToList()
+            };
         }
-
-        public static Mapper InicijalizirajInsertUpdateToDTO()
-        {
-            return new Mapper(
-                new MapperConfiguration(c =>
-                {
-                    c.CreateMap<Rezervacija, RezervacijaDTOInsertUpdate>();
-                })
-                );
-        }
-
-        public static Mapper InicijalizirajInsertUpdateFromDTO()
-        {
-            return new Mapper(
-                new MapperConfiguration(c =>
-                {
-                    c.CreateMap<RezervacijaDTOInsertUpdate, Rezervacija>();
-                })
-                );
-        }
-
     }
 }
+
+//using AutoMapper;
+//using BookingAPP.Models;
+
+//namespace BookingAPP.Mappers
+//{ 
+//    public class RezervacijaMapper
+//    {
+//        public static Mapper InicijalizirajReadToDTO()
+//        {
+//            return new Mapper(
+//                new MapperConfiguration(c =>
+//                {
+//                    c.CreateMap<Rezervacija, RezervacijaDTORead>();
+//                })
+//                );
+//        }
+
+//        public static Mapper InicijalizirajReadFromDTO()
+//        {
+//            return new Mapper(
+//                new MapperConfiguration(c =>
+//                {
+//                    c.CreateMap<RezervacijaDTORead, Rezervacija>();
+//                })
+//                );
+//        }
+
+//        public static Mapper InicijalizirajInsertUpdateToDTO()
+//        {
+//            return new Mapper(
+//                new MapperConfiguration(c =>
+//                {
+//                    c.CreateMap<Rezervacija, RezervacijaDTOInsertUpdate>();
+//                })
+//                );
+//        }
+//    }
+//}

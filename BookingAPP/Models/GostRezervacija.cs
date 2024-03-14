@@ -1,15 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingAPP.Models
 {
-    public class Gostrezervacija
+    public class GostRezervacija
     {
-        [ForeignKey("Gost")]
-        public int GostId { get; set; }
-        public virtual Gost Gost { get; set; }
+        [Key, Column(Order = 0)]
+        [ForeignKey("gost")]
+        public int Gost { get; set; } // Pretpostavka je da se ovo podudara s nazivom stupca u bazi
 
-        [ForeignKey("Rezervacija")]
-        public int RezervacijaId { get; set; }
-        public virtual Rezervacija Rezervacija { get; set; }
+        public Gost GostNavigation { get; set; } // Promijenjeno u GostNavigation
+
+        [Key, Column(Order = 1)]
+        [ForeignKey("rezervacija")]
+        public int Rezervacija { get; set; } // Pretpostavka je da se ovo podudara s nazivom stupca u bazi
+
+        public Rezervacija RezervacijaNavigation { get; set; } // Promijenjeno u RezervacijaNavigation
     }
 }

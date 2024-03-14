@@ -10,11 +10,7 @@ namespace BookingAPP.Models
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string Oib { get; set; }
-
-        public virtual ICollection<Gostrezervacija> GostRezervacije { get; set; }
-
-
-
+        public List<GostRezervacija> GostRezervacije { get; set; }
 
 
     }

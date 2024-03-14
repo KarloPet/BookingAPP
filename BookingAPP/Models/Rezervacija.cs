@@ -9,8 +9,9 @@ namespace BookingAPP.Models
         public decimal Cijena { get; set; }
         public DateTime Datum_Od { get; set; }
         public DateTime Datum_Do { get; set; }
+        public List<GostRezervacija> GostRezervacije { get; set; }
 
-        public ICollection<Gostrezervacija> GostRezervacije { get; set; }
+
     }
 
 }
