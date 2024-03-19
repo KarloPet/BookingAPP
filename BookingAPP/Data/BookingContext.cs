@@ -1,5 +1,6 @@
 ﻿using BookingAPP.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace BookingAPP.Data
 {
@@ -16,7 +17,17 @@ namespace BookingAPP.Data
 
         public DbSet<Gost> gost { get; set; }
 
+        public DbSet<GostRezervacija> GostRezervacija { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<GostRezervacija>()
+                .HasOne(gr => gr.Rezervacija)
+                .WithMany(r => r.GostRezervacija);
+        }
+
 
 
     }
-}
+    }

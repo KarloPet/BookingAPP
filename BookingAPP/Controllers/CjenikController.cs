@@ -40,21 +40,33 @@ namespace BookingAPP.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        [HttpGet("ProvjeriDatum")]
+        public async Task<IActionResult> ProvjeriDatum([FromQuery] DateTime datum)
+        {
+            bool datumPostoji = await _Context.cjenik.AnyAsync(c => c.Datum.Date == datum.Date);
+            return Ok(new { exists = datumPostoji });
+        }
 
 
         [HttpPost]
-        public IActionResult Post(Cjenik c)
+        public async Task<IActionResult> Post([FromBody] Cjenik cjenik)
         {
-            if (c == null)
+            if (!ModelState.IsValid)
             {
-                return NoContent();
+                return BadRequest(ModelState);
             }
-            _Context.Add(c);
-            _Context.SaveChanges();
+            bool datumPostoji = await _Context.cjenik.AnyAsync(c => c.Datum.Date == cjenik.Datum.Date);
+            if (datumPostoji)
+            {
+                return BadRequest("Cijena za odabrani datum već postoji.");
+            }
 
-            return StatusCode(StatusCodes.Status201Created, c);
+            _Context.cjenik.Add(cjenik);
+            await _Context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = cjenik.Id }, cjenik);
         }
+
 
         [HttpPut]
         [Route("{id:int}")]

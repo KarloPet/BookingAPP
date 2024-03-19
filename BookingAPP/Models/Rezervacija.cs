@@ -6,6 +6,8 @@
         public decimal Cijena { get; set; }
         public DateTime Datum_Od { get; set; }
         public DateTime Datum_Do { get; set; }
+
+        public ICollection<GostRezervacija> GostRezervacija { get; set; }
     }
 
 }
