@@ -56,10 +56,15 @@ namespace BookingAPP.Controllers
                 return BadRequest(ModelState);
             }
             bool datumPostoji = await _Context.cjenik.AnyAsync(c => c.Datum.Date == cjenik.Datum.Date);
+
             if (datumPostoji)
             {
-                return BadRequest("Cijena za odabrani datum već postoji.");
+                return BadRequest(new { message = "Cijena za odabrani datum već postoji." });
             }
+            //if (datumPostoji)
+            //{
+            //    return BadRequest("Cijena za odabrani datum već postoji.");
+            //}
 
             _Context.cjenik.Add(cjenik);
             await _Context.SaveChangesAsync();

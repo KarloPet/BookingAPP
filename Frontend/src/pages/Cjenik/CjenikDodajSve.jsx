@@ -20,17 +20,19 @@ function DodajSve() {
 
 
     try {
-        const odgovor = await CjenikService.dodajCijenu({ datum: formatiraniDatum, cijena: parseFloat(cijena) });
-        if (odgovor.ok) {
-            navigate(RoutesNames.CJENIK); 
-            alert("Cijena uspiješno promijenjena");
-        } else {
-            alert(odgovor.poruka || 'Došlo je do greške pri ažuriranju cijene.');
-        }
-    } catch (error) {
-        console.error('Greška pri promjeni cijene:', error);
-        alert('Došlo je do greške prilikom ažuriranja cijene.');
-    }
+      const odgovor = await CjenikService.dodajCijenu({ datum: formatiraniDatum, cijena: parseFloat(cijena) });
+      if (odgovor.ok) {
+          navigate(RoutesNames.CJENIK);
+          alert("Cijena uspiješno promijenjena");
+      } else {
+          const errorResponse = await odgovor.json();
+          alert(errorResponse.message || 'Došlo je do greške pri ažuriranju cijene.');
+      }
+  } catch (error) {
+      console.error('Greška pri promjeni cijene:', error);
+      alert('Datum koji pokušavate kreirati vec postoji');
+  }
+
 };
 
   const trenutnaGodina = new Date().getFullYear();

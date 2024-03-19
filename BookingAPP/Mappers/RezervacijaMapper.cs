@@ -1,34 +1,44 @@
-﻿//using BookingAPP.Models;
+﻿using BookingAPP.Models;
+namespace BookingAPP.Mappers
+{
+    public static class RezervacijaMapper
+    {
+
+        public static RezervacijaDTORead MapToDTORead(Rezervacija rezervacija)
+        {
+            return new RezervacijaDTORead
+            { 
+                Id = rezervacija.Id,
+                Cijena = rezervacija.Cijena,
+                DatumOd = rezervacija.Datum_Od,
+                DatumDo = rezervacija.Datum_Do
+            };
+        }
+
+        public static RezervacijaDTOInsertUpdate MapToDTOInsertUpdate(Rezervacija rezervacija)
+        {
+            List<GostDTORead> Gosti = new List<GostDTORead>();
+            foreach (Gost gost in rezervacija.Gost)
+            {
+                Gosti.Add(GostMapper.ToDTO(gost));
+            }
+
+            return new RezervacijaDTOInsertUpdate
+            {
+                Id = rezervacija.Id,
+                Cijena = rezervacija.Cijena,
+                DatumOd = rezervacija.Datum_Od,
+                DatumDo = rezervacija.Datum_Do,
+                Gost = Gosti
+            };
+        }
+
+    }
+}
+
+
 //namespace BookingAPP.Mappers
 //{
-//    public static class RezervacijaMapper
-//    {
-
-//        public static RezervacijaDTO MapToDTO(Rezervacija rezervacija)
-//        {
-//            return new RezervacijaDTO
-//            {
-//                Id = rezervacija.Id,
-//                Cijena = rezervacija.Cijena,
-//                DatumOd = rezervacija.Datum_Od,
-//                DatumDo = rezervacija.Datum_Do,
-//                Gosti = rezervacija.GostRezervacije.Select(gr => new GostDTO
-//                {
-//                    Id = gr.GostNavigation.Id,
-//                    Ime = gr.GostNavigation.Ime,
-//                    Prezime = gr.GostNavigation.Prezime,
-//                    Oib = gr.GostNavigation.Oib
-//                }).ToList()
-//            };
-//        }
-//    }
-//}
-
-//using AutoMapper;
-//using BookingAPP.Models;
-
-//namespace BookingAPP.Mappers
-//{ 
 //    public class RezervacijaMapper
 //    {
 //        public static Mapper InicijalizirajReadToDTO()

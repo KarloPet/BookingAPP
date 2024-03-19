@@ -17,14 +17,17 @@ namespace BookingAPP.Data
 
         public DbSet<Gost> gost { get; set; }
 
-        public DbSet<GostRezervacija> GostRezervacija { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Entity<GostRezervacija>()
-                .HasOne(gr => gr.Rezervacija)
-                .WithMany(r => r.GostRezervacija);
+            modelBuilder.Entity<Rezervacija>()
+                .HasMany(g => g.Gost)
+                .WithMany(p => p.Rezervacije)
+                .UsingEntity<Dictionary<string, object>>("gost_rezervacija",
+                c => c.HasOne<Gost>().WithMany().HasForeignKey("gost"),
+                c => c.HasOne<Rezervacija>().WithMany().HasForeignKey("rezervacija"),
+                c => c.ToTable("gost_rezervacija")
+                );
         }
 
 
