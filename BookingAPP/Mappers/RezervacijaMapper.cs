@@ -1,28 +1,28 @@
-﻿using BookingAPP.Models;
-namespace BookingAPP.Mappers
-{
-    public static class RezervacijaMapper
-    {
+﻿//using BookingAPP.Models;
+//namespace BookingAPP.Mappers
+//{
+//    public static class RezervacijaMapper
+//    {
 
-        public static RezervacijaDTO MapToDTO(Rezervacija rezervacija)
-        {
-            return new RezervacijaDTO
-            {
-                Id = rezervacija.Id,
-                Cijena = rezervacija.Cijena,
-                DatumOd = rezervacija.Datum_Od,
-                DatumDo = rezervacija.Datum_Do,
-                Gosti = rezervacija.GostRezervacije.Select(gr => new GostDTO
-                {
-                    Id = gr.GostNavigation.Id,
-                    Ime = gr.GostNavigation.Ime,
-                    Prezime = gr.GostNavigation.Prezime,
-                    Oib = gr.GostNavigation.Oib
-                }).ToList()
-            };
-        }
-    }
-}
+//        public static RezervacijaDTO MapToDTO(Rezervacija rezervacija)
+//        {
+//            return new RezervacijaDTO
+//            {
+//                Id = rezervacija.Id,
+//                Cijena = rezervacija.Cijena,
+//                DatumOd = rezervacija.Datum_Od,
+//                DatumDo = rezervacija.Datum_Do,
+//                Gosti = rezervacija.GostRezervacije.Select(gr => new GostDTO
+//                {
+//                    Id = gr.GostNavigation.Id,
+//                    Ime = gr.GostNavigation.Ime,
+//                    Prezime = gr.GostNavigation.Prezime,
+//                    Oib = gr.GostNavigation.Oib
+//                }).ToList()
+//            };
+//        }
+//    }
+//}
 
 //using AutoMapper;
 //using BookingAPP.Models;

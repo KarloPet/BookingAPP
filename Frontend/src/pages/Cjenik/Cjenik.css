@@ -8,3 +8,37 @@
     white-space: nowrap; 
     text-align: center; 
 }
+.dugmeDodaj {
+    color: white;
+    background-color: green;
+    width: 100%;
+}
+.naslov2 {
+    text-align: center;
+    margin-top: 7px;
+    font-family: Arial, sans-serif; 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #51829B; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px #51829B; 
+  }
+  .naslov3 {
+    text-align: center;
+    margin-top: 7px;
+    font-family: Arial, sans-serif; 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #000000; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px #585858; 
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: 20px; 
+    margin: 0 10px; 
+  }

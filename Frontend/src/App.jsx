@@ -10,6 +10,8 @@ import Informations from "./pages/Informations"
 import Zanimljivosti from "./pages/Zanimljivosti"
 import Gosti from "./pages/Gosti"
 import Cjenik from "./pages/Cjenik/Cjenik"
+import CjenikDodaj from"./pages/Cjenik/CjenikDodaj"
+import CjenikDodajSve from "./pages/Cjenik/CjenikDodajSve"
 
 function App() {
   return (
@@ -23,6 +25,11 @@ function App() {
           <Route path={RoutesNames.ZANIMLJIVOSTI} element={<Zanimljivosti />} />
           <Route path={RoutesNames.GOSTI} element={<Gosti />} />
           <Route path={RoutesNames.CJENIK} element={<Cjenik />} />
+          <Route path={RoutesNames.CJENIKDODAJ} element={<CjenikDodaj />} />
+          <Route path={RoutesNames.CJENIKDODAJSVE} element={<CjenikDodajSve />} />
+
+
+
 
 
         </>

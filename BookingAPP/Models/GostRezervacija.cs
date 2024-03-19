@@ -5,16 +5,13 @@ namespace BookingAPP.Models
 {
     public class GostRezervacija
     {
-        [Key, Column(Order = 0)]
-        [ForeignKey("gost")]
-        public int Gost { get; set; } // Pretpostavka je da se ovo podudara s nazivom stupca u bazi
+        //[Key]
+        //public int GostId { get; set; }
+        //public Gost Gost { get; set; }
 
-        public Gost GostNavigation { get; set; } // Promijenjeno u GostNavigation
-
-        [Key, Column(Order = 1)]
-        [ForeignKey("rezervacija")]
-        public int Rezervacija { get; set; } // Pretpostavka je da se ovo podudara s nazivom stupca u bazi
-
-        public Rezervacija RezervacijaNavigation { get; set; } // Promijenjeno u RezervacijaNavigation
+        //[Key]
+        //public int RezervacijaId { get; set; }
+        //public Rezervacija Rezervacija { get; set; }
     }
+
 }
