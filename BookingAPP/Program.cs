@@ -1,6 +1,8 @@
 ﻿using BookingAPP.Data;
+using BookingAPP.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +56,9 @@ builder.Services.AddCors(opcije =>
 builder.Services.AddDbContext<BookingContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString(name: "BookingContext"))
 );
+builder.Services.AddScoped<UserService>();
+
+
 
 
 

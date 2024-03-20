@@ -18,6 +18,10 @@ namespace BookingAPP.Data
         public DbSet<Gost> gost { get; set; }
 
 
+        public DbSet<User> Users { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Rezervacija>()
