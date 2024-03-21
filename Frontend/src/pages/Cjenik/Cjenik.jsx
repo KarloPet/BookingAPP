@@ -6,13 +6,13 @@ import CjenikService from '../../services/CjenikService';
 import "./Cjenik.css";
 import { useNavigate } from 'react-router-dom';
 import { RoutesNames } from '../../constants';
+import { useAuth } from '../../AuthContext';
 
 function Cjenik() {
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
-
     const [cjenik, setCjenik] = useState([]);
     const [odabranaGodina, setOdabranaGodina] = useState(new Date().getFullYear());
-
     const godine = Array.from({ length: 5 }, (_, index) => 2023 + index);
 
     const fetchCjenikByMonthAndYear = async (year, month) => {
@@ -29,11 +29,13 @@ function Cjenik() {
     return (
         <Container>
             <h2 className='naslov2'>CJENIK</h2>
-            <Button className='btn btn-success dugmeDodaj' onClick={() => navigate(RoutesNames.CJENIKDODAJSVE)}>
-  DODAJ NOVU CIJENU
-</Button>
+            {currentUser && currentUser.permissionLevel === 'admin' && (
+                <Button className='btn btn-success dugmeDodaj' onClick={() => navigate(RoutesNames.CJENIKDODAJSVE)}>
+                    DODAJ NOVU CIJENU
+                </Button>
+            )}
 
-                    <h2 className='naslov3'>Dohvati cjenik po godini i mjesecu</h2>
+            <h2 className='naslov3'>Dohvati cjenik po godini i mjesecu</h2>
 
             <div className="year-selection button-container" style={{ marginBottom: '20px' }}>
                 {godine.map((godina) => (
@@ -52,9 +54,11 @@ function Cjenik() {
             <Table striped bordered hover responsive>
                 <thead>
                     <tr>
-                        <th style={{ width: '40%' }}>Datum</th>
-                        <th style={{ width: '40%' }}>Cijena</th>
-                        <th style={{ width: '20%' }}>Akcija</th>
+                        <th style={{ width: currentUser && currentUser.permissionLevel === 'admin' ? '40%' : '50%' }}>Datum</th>
+                        <th style={{ width: currentUser && currentUser.permissionLevel === 'admin' ? '40%' : '50%' }}>Cijena</th>
+                        {currentUser && currentUser.permissionLevel === 'admin' && (
+                            <th style={{ width: '20%' }}>Akcija</th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>
@@ -62,15 +66,17 @@ function Cjenik() {
                         <tr key={item.id}>
                             <td>{new Date(item.datum).toLocaleDateString('hr-HR')}</td>
                             <td>{item.cijena} kn</td>
-                            <td>
-                                <Button variant="primary" onClick={() => navigate(RoutesNames.CJENIKDODAJ, { state: { id: item.id, datum: item.datum, cijena: item.cijena } })}>
-                                    <FaEdit size={20} />
-                                </Button>
-                                &nbsp;&nbsp;&nbsp;
-                                <Button variant="danger" onClick={() => CjenikService.obrisiCjenu(item.id).then(() => fetchCjenikByMonthAndYear(odabranaGodina, new Date(item.datum).getMonth() + 1))}>
-                                    <FaTrash size={20} />
-                                </Button>
-                            </td>
+                            {currentUser && currentUser.permissionLevel === 'admin' && (
+                                <td>
+                                    <Button variant="primary" onClick={() => navigate(RoutesNames.CJENIKDODAJ, { state: { id: item.id, datum: item.datum, cijena: item.cijena } })}>
+                                        <FaEdit size={20} />
+                                    </Button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Button variant="danger" onClick={() => CjenikService.obrisiCjenu(item.id).then(() => fetchCjenikByMonthAndYear(odabranaGodina, new Date(item.datum).getMonth() + 1))}>
+                                        <FaTrash size={20} />
+                                    </Button>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

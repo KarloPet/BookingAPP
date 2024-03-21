@@ -45,8 +45,14 @@ public class AccountController : ControllerBase
 
         if (user != null)
         {
-            // Implementirajte generiranje JWT tokena ili slične mehanizme autentifikacije ovdje
-            return Ok(new { message = "Prijava uspješna" });
+            // Generiranje JWT tokena za autentificiranog korisnika
+            var token = _userService.GenerateJwtToken(user);
+            return Ok(new
+            {
+                message = "Prijava uspješna",
+                token = token,
+                user = new { user.FirstName, user.LastName, user.Email, user.PermissionLevel }
+            });
         }
         else
         {

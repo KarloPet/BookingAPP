@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ImageGallery from "react-image-gallery";
 import "./Pocetna.css"
+import { useAuth } from '../AuthContext';
 
 const images = [
   {
@@ -21,8 +22,16 @@ const images = [
 
 
 function MyGallery() {
+  const { currentUser } = useAuth();
+
   return (
     <Container>
+      {currentUser && (
+        <div className="pozdravnaPoruka">
+          <p>Dobrodošao natrag {currentUser.firstName} {currentUser.lastName}</p>
+        </div>
+              )}
+
         <div className="naslov"><h1>
             apartmani peterfaj
         </h1>

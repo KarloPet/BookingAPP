@@ -1,15 +1,23 @@
 ﻿using BookingAPP.Data;
 using BookingAPP.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Threading.Tasks;
 
 public class UserService
 {
     private readonly BookingContext _context;
+    private readonly IConfiguration _configuration;
 
-    public UserService(BookingContext context)
+    public UserService(BookingContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
 
     public async Task<bool> RegisterUser(string email, string password, string firstName, string lastName)
@@ -46,6 +54,26 @@ public class UserService
             return user;
         }
         return null;
+    }
+
+    public string GenerateJwtToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                // Dodajte dodatne claim-ove ovdje ako su potrebni
+            }),
+            Expires = DateTime.UtcNow.AddDays(7), // Token istječe za 7 dana
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     private string HashPassword(string password)

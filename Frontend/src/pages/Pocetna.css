@@ -7,3 +7,10 @@
   .naslov3 {
     margin-top: 20px;
   }
+  .pozdravnaPoruka {
+    font-size: 1.5em; /* Prilagodite veličinu teksta po želji */
+    text-align: right; /* Poravnavanje teksta desno */
+    padding-right: 20px; /* Dodajte padding desno za malo prostora od ruba */
+    margin-top: 20px; /* Dodajte malo margina na vrhu ako je potrebno */
+    color: rgb(128, 128, 197);
+  }

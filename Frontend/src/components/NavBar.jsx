@@ -1,14 +1,22 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
 import { RoutesNames } from '../constants';
+import { useAuth } from '../AuthContext';
+
 
 import './NavBar.css';
 
 function NavBar() {
     const navigate = useNavigate();
+
+    const { currentUser, logout } = useAuth(); // Dodajte ovdje currentUser za provjeru je li korisnik prijavljen
+
+    const handleLogout = () => {
+        logout(); // Poziva logout funkciju iz AuthContext
+        navigate(RoutesNames.HOME);
+    }
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -46,16 +54,29 @@ function NavBar() {
                             onClick={() => navigate(RoutesNames.ZANIMLJIVOSTI)}>
                             <p className='stavke'>Zanimljivosti</p>
                         </Nav.Link>
+                        {currentUser && currentUser.permissionLevel === 'moderator' && (
                         <Nav.Link 
                             className='link'
                             onClick={() => navigate(RoutesNames.GOSTI)}>
                             <p className='stavke'>Gosti</p>
                         </Nav.Link>
+                                            )}
+
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                    <Nav.Link target="_blank">Prijava</Nav.Link>
-                </Navbar.Collapse>
+            {currentUser ? (
+                // Prikazuje link za odjavu ako je korisnik prijavljen
+                <Nav.Link onClick={handleLogout}>
+                    Odjava
+                </Nav.Link>
+            ) : (
+                // Prikazuje link za prijavu ako korisnik nije prijavljen
+                <Nav.Link onClick={()=>navigate(RoutesNames.LOGIN)}>
+                    Prijava
+                </Nav.Link>
+            )}
+        </Navbar.Collapse>
             </Container>
         </Navbar>
     );

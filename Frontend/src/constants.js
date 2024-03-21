@@ -6,7 +6,8 @@ export const RoutesNames = {
     GOSTI:'/Gosti',
     CJENIK:'/Cjenik',
     CJENIKDODAJ: '/CjenikDodaj',
-    CJENIKDODAJSVE: '/CjenikDodajSve'
+    CJENIKDODAJSVE: '/CjenikDodajSve',
+    LOGIN:'/Login'
 };
 
 export const App = {
