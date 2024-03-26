@@ -99,7 +99,7 @@ function Cjenik() {
                         <Button variant="primary" onClick={() => navigate(RoutesNames.CJENIKDODAJ, { state: selectedCijena })}>
                             <FaEdit size={20} /> Uredi
                         </Button>
-                    )};
+                    )}
 
 
 
@@ -122,7 +122,7 @@ function Cjenik() {
                         }}>
                             <FaTrash size={20} />
                         </Button>
-                    )};
+                    )}
                 </Modal.Footer>
             </Modal>
         </Container>
