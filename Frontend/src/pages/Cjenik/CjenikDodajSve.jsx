@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+// cjenikdodajsve.jsx
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import CjenikService from '../../services/CjenikService';
 import { RoutesNames } from '../../constants';
 
-
-
 function DodajSve() {
-  const [datum, setDatum] = useState({ mjesec: '', dan: '', godina: '' });
-  const [cijena, setCijena] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const [cijena, setCijena] = useState('');
+
+  // State za datum koji će se popuniti na temelju 'location.state' (ako postoje podaci)
+  const [datum, setDatum] = useState({
+    godina: new Date().getFullYear(),
+    mjesec: new Date().getMonth() + 1,
+    dan: new Date().getDate()
+  });
+
+  // Pomoću useEffect hooka postavite datum kad je komponenta montirana
+  useEffect(() => {
+    if (location.state) {
+      setDatum({
+        godina: location.state.godina,
+        mjesec: location.state.mjesec,
+        dan: location.state.datum
+      });
+    }
+  }, [location]);
 
   const handleSubmit = async (e) => { 
     e.preventDefault();

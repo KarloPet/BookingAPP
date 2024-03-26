@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from '../../AuthContext';
 import { RoutesNames } from '../../constants';
-//import {CjenikService} from '../../services/CjenikService'
+import CjenikService from '../../services/CjenikService'
 
 function Cjenik() {
     const { currentUser } = useAuth();
@@ -18,8 +18,11 @@ function Cjenik() {
     const [selectedCijena, setSelectedCijena] = useState(null);
 
     useEffect(() => {
-        fetchCjenik(activeDate.getFullYear(), activeDate.getMonth() + 1);
-    }, [activeDate]);
+        // Ovo se sada poziva samo prilikom inicijalnog učitavanja
+        fetchCjenik(new Date().getFullYear(), new Date().getMonth() + 1);
+      }, []);
+      
+    
 
     const fetchCjenik = async (year, month) => {
         try {
@@ -36,7 +39,16 @@ function Cjenik() {
         if (foundCijena) {
             setSelectedCijena(foundCijena);
             setShowModal(true);
-        }
+            console.log(fetchCjenik)
+        } else if (currentUser.permissionLevel==='admin') {
+         navigate(RoutesNames.CJENIKDODAJSVE , {
+            state: {
+                godina: value.getFullYear(),
+                mjesec: value.getMonth() + 1,
+                datum: value.getDate()
+            } 
+         })
+        };
     };
 
     const closeModal = () => setShowModal(false);
@@ -51,18 +63,21 @@ function Cjenik() {
 
     return (
         <Container>
-            {currentUser && currentUser.permissionLevel === 'admin' && (
+            {/* {currentUser && currentUser.permissionLevel === 'admin' && (
                 <Button className='btn btn-success' onClick={() => navigate(RoutesNames.CJENIKDODAJSVE)}>
                     DODAJ NOVU CIJENU
                 </Button>
-            )}
-            <Calendar
-                onChange={setActiveDate}
-                value={activeDate}
-                onClickDay={handleDayClick}
-                tileContent={tileContent}
-                locale="hr-HR"
-            />
+            )} */}
+<Calendar
+  onChange={setActiveDate}
+  value={activeDate}
+  onClickDay={handleDayClick}
+  tileContent={tileContent}
+  locale="hr-HR"
+  onActiveStartDateChange={({ activeStartDate, view }) => {
+    fetchCjenik(activeStartDate.getFullYear(), activeStartDate.getMonth() + 1);
+  }}
+/>
 
             <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
@@ -77,24 +92,37 @@ function Cjenik() {
                     <Button variant="secondary" onClick={closeModal}>
                         Zatvori
                     </Button>
-                    <Button variant="primary" onClick={() => navigate(RoutesNames.CJENIKDODAJ, { state: selectedCijena })}>
-                        <FaEdit size={20} /> Uredi
-                    </Button>
+
+                            {/* uređivanje cijene kada je admin prijavljen */}
+                    {currentUser && currentUser.permissionLevel === 'admin' && (
+
+                        <Button variant="primary" onClick={() => navigate(RoutesNames.CJENIKDODAJ, { state: selectedCijena })}>
+                            <FaEdit size={20} /> Uredi
+                        </Button>
+                    )};
 
 
-                    <Button variant="danger" onClick={() => CjenikService.obrisiCjenu(item.id)}>
-                                        <FaTrash size={20} />
-                                    </Button>
 
 
+                            {/* brisanje cijene kada je admin prijavljen */}
+                    {currentUser && currentUser.permissionLevel === 'admin' && (
 
-
-                    {/* <Button variant="danger" onClick={() => {
-                        // Ovdje implementirajte logiku brisanja
-                        closeModal();
-                    }}>
-                        <FaTrash size={20} /> Obriši
-                    </Button> */}
+                        <Button variant="danger" onClick={() => {
+                            if (selectedCijena && selectedCijena.id) {
+                                CjenikService.obrisiCjenu(selectedCijena.id)
+                                    .then(() => {
+                                        closeModal();
+                                        fetchCjenik(activeDate.getFullYear(), activeDate.getMonth() + 1);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error deleting cijena:', error);
+                                        alert("Došlo je do pogreške prilikom brisanje cijene!")
+                                    });
+                            }
+                        }}>
+                            <FaTrash size={20} />
+                        </Button>
+                    )};
                 </Modal.Footer>
             </Modal>
         </Container>
